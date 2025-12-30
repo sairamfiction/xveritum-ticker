@@ -1,129 +1,168 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>XVeritum – Annual Round-Up 2025</title>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>XVeritum Annual Round-Up Ticker</title>
 <style>
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
-  background:#0f0f0f;
-}
-.wrap{
-  height:170px;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-}
-.track{
-  display:flex;
-  gap:16px;
-  padding:16px;
-  animation:scroll 60s linear infinite;
-}
-.wrap:hover .track{
-  animation-play-state:paused;
-}
-@keyframes scroll{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
-}
-.card{
-  display:flex;
-  width:360px;
-  gap:12px;
-  background:#151515;
-  color:#ffffff;
-  border-radius:14px;
-  padding:12px;
-  text-decoration:none;
-  align-items:center;
-}
-.card img{
-  width:110px;
-  height:96px;
-  object-fit:cover;
-  border-radius:10px;
-}
-.kicker{
-  font-size:12px;
-  color:#c9a227;
-  text-transform:uppercase;
-}
-.title{
-  font-size:15px;
-  font-weight:600;
-  line-height:1.25;
-}
-.hint{
-  font-size:12px;
-  opacity:.7;
-}
+  :root{
+    --gold:#c9a227;
+    --bg:#0f0f0f;
+    --card:#161616;
+    --text:#ffffff;
+  }
+  body{
+    margin:0;
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:var(--bg);
+  }
+
+  /* BIGGER BAND */
+  .wrap{
+    overflow:hidden;
+    height:240px;
+    background:var(--bg);
+  }
+
+  .track{
+    display:flex;
+    gap:16px;
+    padding:22px 18px;
+    animation: scroll 95s linear infinite;
+    will-change: transform;
+  }
+
+  .wrap:hover .track{ animation-play-state: paused; }
+
+  @keyframes scroll{
+    from{ transform: translateX(0); }
+    to{ transform: translateX(-50%); }
+  }
+
+  a.card{
+    display:flex;
+    gap:14px;
+    width:440px;
+    min-width:440px;
+    background:var(--card);
+    border-radius:18px;
+    padding:14px;
+    color:var(--text);
+    text-decoration:none;
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow: 0 8px 22px rgba(0,0,0,.35);
+  }
+
+  a.card:focus, a.card:hover{
+    border-color: rgba(201,162,39,.45);
+    box-shadow: 0 10px 28px rgba(0,0,0,.45);
+  }
+
+  .thumb{
+    width:150px;
+    height:130px;
+    border-radius:14px;
+    object-fit:cover;
+    background:#222;
+    flex:0 0 auto;
+  }
+
+  .meta{ display:flex; flex-direction:column; justify-content:center; }
+
+  .kicker{
+    font-size:13px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:800;
+  }
+
+  .title{
+    font-size:17px;
+    line-height:1.25;
+    font-weight:750;
+    margin-top:8px;
+  }
+
+  .cta{
+    margin-top:10px;
+    font-size:13.5px;
+    opacity:.78;
+  }
+
+  /* Mobile tune so it doesn’t feel oversized */
+  @media (max-width: 520px){
+    .wrap{ height:220px; }
+    a.card{ width:360px; min-width:360px; padding:13px; }
+    .thumb{ width:130px; height:110px; }
+    .title{ font-size:15.5px; }
+  }
 </style>
 </head>
 
 <body>
 <div class="wrap">
-<div class="track">
+  <div class="track">
 
-<a class="card" href="https://xveritum.com/annual-round-up-2025#geo-transactional" target="_top">
-  <img src="image1.jpg">
-  <div>
-    <div class="kicker">Geopolitics</div>
-    <div class="title">From alliances to deals: the West turns transactional</div>
-    <div class="hint">Open Annual Round-Up →</div>
+    <!-- NOTE: Your images currently are named like image1.jpg.jpg in repo.
+         Use EXACT filenames as they appear in GitHub. -->
+
+    <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-01" target="_top" rel="noopener">
+      <img class="thumb" src="image1.jpg.jpg" alt="">
+      <div class="meta">
+        <div class="kicker">01 Geopolitics</div>
+        <div class="title">The West turned transactional</div>
+        <div class="cta">Open Annual Round-Up →</div>
+      </div>
+    </a>
+
+    <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-02" target="_top" rel="noopener">
+      <img class="thumb" src="image2.jpg.jpg" alt="">
+      <div class="meta">
+        <div class="kicker">02 AI & Power</div>
+        <div class="title">A revolution of control, not participation</div>
+        <div class="cta">Open Annual Round-Up →</div>
+      </div>
+    </a>
+
+    <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-03" target="_top" rel="noopener">
+      <img class="thumb" src="image3.jpg.jpg" alt="">
+      <div class="meta">
+        <div class="kicker">03 Security</div>
+        <div class="title">Defence & space reshaped industrial policy</div>
+        <div class="cta">Open Annual Round-Up →</div>
+      </div>
+    </a>
+
+    <!-- Duplicate the same set for seamless scroll -->
+    <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-01" target="_top" rel="noopener">
+      <img class="thumb" src="image1.jpg.jpg" alt="">
+      <div class="meta">
+        <div class="kicker">01 Geopolitics</div>
+        <div class="title">The West turned transactional</div>
+        <div class="cta">Open Annual Round-Up →</div>
+      </div>
+    </a>
+
+    <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-02" target="_top" rel="noopener">
+      <img class="thumb" src="image2.jpg.jpg" alt="">
+      <div class="meta">
+        <div class="kicker">02 AI & Power</div>
+        <div class="title">A revolution of control, not participation</div>
+        <div class="cta">Open Annual Round-Up →</div>
+      </div>
+    </a>
+
+    <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-03" target="_top" rel="noopener">
+      <img class="thumb" src="image3.jpg.jpg" alt="">
+      <div class="meta">
+        <div class="kicker">03 Security</div>
+        <div class="title">Defence & space reshaped industrial policy</div>
+        <div class="cta">Open Annual Round-Up →</div>
+      </div>
+    </a>
+
   </div>
-</a>
-
-<a class="card" href="https://xveritum.com/annual-round-up-2025#ai-power" target="_top">
-  <img src="image2.jpg">
-  <div>
-    <div class="kicker">AI & Power</div>
-    <div class="title">AI became infrastructure, not empowerment</div>
-    <div class="hint">Open Annual Round-Up →</div>
-  </div>
-</a>
-
-<a class="card" href="https://xveritum.com/annual-round-up-2025#defence-space" target="_top">
-  <img src="image3.jpg">
-  <div>
-    <div class="kicker">Defence & Space</div>
-    <div class="title">Security spending reshaped industrial strategy</div>
-    <div class="hint">Open Annual Round-Up →</div>
-  </div>
-</a>
-
-<!-- duplicate cards for seamless scroll -->
-<a class="card" href="https://xveritum.com/annual-round-up-2025#geo-transactional" target="_top">
-  <img src="image1.jpg">
-  <div>
-    <div class="kicker">Geopolitics</div>
-    <div class="title">From alliances to deals: the West turns transactional</div>
-    <div class="hint">Open Annual Round-Up →</div>
-  </div>
-</a>
-
-<a class="card" href="https://xveritum.com/annual-round-up-2025#ai-power" target="_top">
-  <img src="image2.jpg">
-  <div>
-    <div class="kicker">AI & Power</div>
-    <div class="title">AI became infrastructure, not empowerment</div>
-    <div class="hint">Open Annual Round-Up →</div>
-  </div>
-</a>
-
-<a class="card" href="https://xveritum.com/annual-round-up-2025#defence-space" target="_top">
-  <img src="image3.jpg">
-  <div>
-    <div class="kicker">Defence & Space</div>
-    <div class="title">Security spending reshaped industrial strategy</div>
-    <div class="hint">Open Annual Round-Up →</div>
-  </div>
-</a>
-
-</div>
 </div>
 </body>
 </html>
