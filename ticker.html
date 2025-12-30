@@ -3,244 +3,234 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Xveritum Ticker</title>
+  <title>XVeritum — Annual Round-Up Ticker</title>
 
   <style>
     :root{
+      --ink:#072429;
+      --muted:rgba(0,0,0,.68);
       --gold:#c9a227;
-      --bg:#0f0f0f;
-      --card:#161616;
-      --text:#ffffff;
-      --muted:rgba(255,255,255,.78);
-      --stroke:rgba(255,255,255,.10);
+
+      /* Brand background similar to your page */
+      --mint:#bfeeee;
+      --mint2:#a8e6e6;
+
+      /* Ticker sizing */
+      --h: 74px;          /* overall ticker height (bigger) */
+      --padX: 18px;       /* left/right padding */
+      --gap: 18px;        /* spacing between items */
+      --speed: 52s;       /* scroll speed (smaller = faster) */
+
+      --radius: 18px;
+      --border: rgba(0,0,0,.10);
+      --shadow: 0 10px 24px rgba(0,0,0,.08);
     }
 
+    *{ box-sizing:border-box; }
     body{
       margin:0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:var(--bg);
+      background: transparent;
+      color: var(--ink);
     }
 
-    /* OPTION B: Editorial band sizing */
-    .wrap{
-      overflow:hidden;
-      height:260px; /* band height */
-    }
-
-    .track{
+    /* Outer shell */
+    .xv-ticker{
+      height: var(--h);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: linear-gradient(90deg, var(--mint), var(--mint2));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
       display:flex;
-      gap:18px;
-      padding:22px 18px;
-      animation: scroll 95s linear infinite;
-      will-change: transform;
+      align-items:center;
     }
 
-    .wrap:hover .track{ animation-play-state: paused; }
+    /* subtle fade edges (premium look) */
+    .xv-ticker:before,
+    .xv-ticker:after{
+      content:"";
+      position:absolute;
+      top:0; bottom:0;
+      width: 44px;
+      z-index: 5;
+      pointer-events:none;
+    }
+    .xv-ticker:before{
+      left:0;
+      background: linear-gradient(90deg, rgba(191,238,238,1), rgba(191,238,238,0));
+    }
+    .xv-ticker:after{
+      right:0;
+      background: linear-gradient(270deg, rgba(168,230,230,1), rgba(168,230,230,0));
+    }
+
+    /* Left label pill */
+    .xv-label{
+      flex: 0 0 auto;
+      margin-left: 14px;
+      margin-right: 12px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.35);
+      border: 1px solid rgba(0,0,0,.08);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      z-index: 6;
+    }
+    .xv-dot{
+      width:10px; height:10px;
+      border-radius:99px;
+      background: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201,162,39,.22);
+    }
+    .xv-label b{
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    /* Track viewport */
+    .xv-viewport{
+      position: relative;
+      flex: 1 1 auto;
+      height: 100%;
+      overflow:hidden;
+      padding-right: 16px;
+    }
+
+    /* The moving track (two copies for seamless loop) */
+    .xv-track{
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: var(--gap);
+      white-space: nowrap;
+      width: max-content;
+      will-change: transform;
+      animation: scroll var(--speed) linear infinite;
+      padding-left: var(--padX);
+    }
+
+    /* Pause on hover */
+    .xv-ticker:hover .xv-track{
+      animation-play-state: paused;
+    }
+
+    /* Item chips */
+    .xv-item{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.30);
+      border: 1px solid rgba(0,0,0,.08);
+      text-decoration:none;
+      color: var(--ink);
+      transition: transform .15s ease, background .15s ease;
+    }
+    .xv-item:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.42);
+    }
+
+    .xv-num{
+      width: 28px;
+      height: 22px;
+      border-radius: 999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 900;
+      font-size: 12px;
+      color: #6a5300;
+      background: rgba(201,162,39,.22);
+      border: 1px solid rgba(201,162,39,.42);
+    }
+    .xv-text{
+      font-weight: 800;
+      font-size: 15px;         /* bigger text */
+      letter-spacing: .01em;
+    }
+    .xv-sub{
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--muted);
+      margin-left: 6px;
+    }
 
     @keyframes scroll{
       from{ transform: translateX(0); }
       to{ transform: translateX(-50%); }
     }
 
-    a.card{
-      display:flex;
-      gap:16px;
-      width:420px;
-      min-width:420px;
-      background:var(--card);
-      border-radius:20px;
-      padding:16px;
-      color:var(--text);
-      text-decoration:none;
-      border:1px solid var(--stroke);
-      box-shadow: 0 10px 28px rgba(0,0,0,.35);
-      align-items:center;
-    }
-
-    .thumb{
-      width:140px;
-      height:120px;
-      border-radius:16px;
-      object-fit:cover;
-      background:#222;
-      flex:0 0 auto;
-      display:block;
-    }
-
-    .kicker{
-      font-size:12.5px;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      color:var(--gold);
-      font-weight:850;
-      margin-top:2px;
-    }
-
-    .title{
-      font-size:16.5px;
-      line-height:1.25;
-      font-weight:800;
-      margin-top:8px;
-    }
-
-    /* CTA line (small but important) */
-    .cta{
-      margin-top:10px;
-      font-size:13px;
-      color:var(--muted);
-      font-weight:650;
-    }
-
-    /* Mobile */
-    @media (max-width:520px){
-      .wrap{ height:240px; }
-      a.card{ width:340px; min-width:340px; padding:14px; }
-      .thumb{ width:120px; height:108px; }
-      .title{ font-size:15.5px; }
+    /* Mobile: slightly taller */
+    @media (max-width: 680px){
+      :root{ --h: 82px; --padX: 14px; --gap: 14px; }
+      .xv-text{ font-size: 14.5px; }
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="track">
+  <div class="xv-ticker" role="region" aria-label="XVeritum Annual Round-Up ticker">
+    <div class="xv-label">
+      <span class="xv-dot"></span>
+      <b>2025 Round-Up</b>
+    </div>
 
-      <!-- 10 cards -->
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-01" target="_top" rel="noopener">
-        <img class="thumb" src="image4.jpg" alt="">
-        <div>
-          <div class="kicker">01 Geopolitics</div>
-          <div class="title">The West turned transactional</div>
-          <div class="cta">Open Annual Round-Up →</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-02" target="_top" rel="noopener">
-        <img class="thumb" src="image2.jpg" alt="">
-        <div>
-          <div class="kicker">02 AI & Power</div>
-          <div class="title">A revolution of control, not participation</div>
-          <div class="cta">Open Annual Round-Up →</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-03" target="_top" rel="noopener">
-        <img class="thumb" src="image3.jpg" alt="">
-        <div>
-          <div class="kicker">03 Security</div>
-          <div class="title">Defence & space reshaped industrial policy</div>
-          <div class="cta">Open Annual Round-Up →</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-04" target="_top" rel="noopener">
-        <img class="thumb" src="image1.jpg" alt="">
-        <div>
-          <div class="kicker">04 Global Order</div>
-          <div class="title">Globalisation fractured, reliability collapsed</div>
-          <div class="cta">Open Annual Round-Up →</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-05" target="_top" rel="noopener">
-        <img class="thumb" src="image5.jpg" alt="">
-        <div>
-          <div class="kicker">05 Leadership</div>
-          <div class="title">Leadership was load-bearing, not loud</div>
-          <div class="cta">Open Annual Round-Up →</div>
-        </div>
-      </a>
-
-      <!-- For 6–10: keep placeholders for now (swap when you upload more images) -->
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-06" target="_top" rel="noopener">
-        <img class="thumb" src="image2.jpg" alt="">
-        <div>
-          <div class="kicker">06 Creativity</div>
-          <div class="title">AI changed what “original” means</div>
-          <div class="cta">Open Annual Round-Up →</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-07" target="_top" rel="noopener">
-        <img class="thumb" src="image3.jpg" alt="">
-        <div>
-          <div class="kicker">07 ESG</div>
-          <div class="title">ESG split into compliance vs capital</div>
-          <div class="cta">Open Annual Round-Up →</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-08" target="_top" rel="noopener">
-        <img class="thumb" src="image4.jpg" alt="">
-        <div>
-          <div class="kicker">08 Markets</div>
-          <div class="title">Risk and refuge rallied together</div>
-          <div class="cta">Open Annual Round-Up →</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-09" target="_top" rel="noopener">
-        <img class="thumb" src="image1.jpg" alt="">
-        <div>
-          <div class="kicker">09 Rights</div>
-          <div class="title">Progress for all—or power for a few?</div>
-          <div class="cta">Open Annual Round-Up →</div>
-        </div>
-      </a>
-
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-10" target="_top" rel="noopener">
-        <img class="thumb" src="image5.jpg" alt="">
-        <div>
-          <div class="kicker">10 Platforms</div>
-          <div class="title">Power moved from blocs to platforms</div>
-          <div class="cta">Open Annual Round-Up →</div>
-        </div>
-      </a>
-
-      <!-- Duplicate the same 10 cards again for seamless scroll -->
-      <!-- (Copy of the same set) -->
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-01" target="_top" rel="noopener">
-        <img class="thumb" src="image4.jpg" alt="">
-        <div><div class="kicker">01 Geopolitics</div><div class="title">The West turned transactional</div><div class="cta">Open Annual Round-Up →</div></div>
-      </a>
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-02" target="_top" rel="noopener">
-        <img class="thumb" src="image2.jpg" alt="">
-        <div><div class="kicker">02 AI & Power</div><div class="title">A revolution of control, not participation</div><div class="cta">Open Annual Round-Up →</div></div>
-      </a>
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-03" target="_top" rel="noopener">
-        <img class="thumb" src="image3.jpg" alt="">
-        <div><div class="kicker">03 Security</div><div class="title">Defence & space reshaped industrial policy</div><div class="cta">Open Annual Round-Up →</div></div>
-      </a>
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-04" target="_top" rel="noopener">
-        <img class="thumb" src="image1.jpg" alt="">
-        <div><div class="kicker">04 Global Order</div><div class="title">Globalisation fractured, reliability collapsed</div><div class="cta">Open Annual Round-Up →</div></div>
-      </a>
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-05" target="_top" rel="noopener">
-        <img class="thumb" src="image5.jpg" alt="">
-        <div><div class="kicker">05 Leadership</div><div class="title">Leadership was load-bearing, not loud</div><div class="cta">Open Annual Round-Up →</div></div>
-      </a>
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-06" target="_top" rel="noopener">
-        <img class="thumb" src="image2.jpg" alt="">
-        <div><div class="kicker">06 Creativity</div><div class="title">AI changed what “original” means</div><div class="cta">Open Annual Round-Up →</div></div>
-      </a>
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-07" target="_top" rel="noopener">
-        <img class="thumb" src="image3.jpg" alt="">
-        <div><div class="kicker">07 ESG</div><div class="title">ESG split into compliance vs capital</div><div class="cta">Open Annual Round-Up →</div></div>
-      </a>
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-08" target="_top" rel="noopener">
-        <img class="thumb" src="image4.jpg" alt="">
-        <div><div class="kicker">08 Markets</div><div class="title">Risk and refuge rallied together</div><div class="cta">Open Annual Round-Up →</div></div>
-      </a>
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-09" target="_top" rel="noopener">
-        <img class="thumb" src="image1.jpg" alt="">
-        <div><div class="kicker">09 Rights</div><div class="title">Progress for all—or power for a few?</div><div class="cta">Open Annual Round-Up →</div></div>
-      </a>
-      <a class="card" href="https://xveritum.com/annual-round-up-2025#idea-10" target="_top" rel="noopener">
-        <img class="thumb" src="image5.jpg" alt="">
-        <div><div class="kicker">10 Platforms</div><div class="title">Power moved from blocs to platforms</div><div class="cta">Open Annual Round-Up →</div></div>
-      </a>
-
+    <div class="xv-viewport">
+      <div class="xv-track" id="track">
+        <!-- JS will inject items twice for seamless loop -->
+      </div>
     </div>
   </div>
+
+  <script>
+    // 1) EDIT THIS: paste your annual page URL (GoDaddy page URL)
+    // Example: "https://xveritum.com/annual-round-up"
+    const ANNUAL_URL = "PASTE_YOUR_ANNUAL_PAGE_URL_HERE";
+
+    // If your annual page is on the same page where you embed the ticker,
+    // you can use ANNUAL_URL = "#xveritum-annual-2025"; but usually GoDaddy is separate page.
+
+    const items = [
+      { n: "01", t: "Western leadership became transactional", anchor: "#idea-01" },
+      { n: "02", t: "AI became power, not participation", anchor: "#idea-02" },
+      { n: "03", t: "Defence + space reshaped industrial policy", anchor: "#idea-03" },
+      { n: "04", t: "Globalisation fractured", anchor: "#idea-04" },
+      { n: "05", t: "Leadership was load-bearing", anchor: "#idea-05" },
+      { n: "06", t: "AI redefined “original”", anchor: "#idea-06" },
+      { n: "07", t: "ESG split into two", anchor: "#idea-07" },
+      { n: "08", t: "Risk + refuge rallied together", anchor: "#idea-08" },
+      { n: "09", t: "Acceleration widened human gaps", anchor: "#idea-09" },
+      { n: "10", t: "Platforms became systemic power", anchor: "#idea-10" }
+    ];
+
+    function buildHTML(list){
+      return list.map(x => {
+        const href = (ANNUAL_URL || "").replace(/\/$/,"") + x.anchor;
+        return `
+          <a class="xv-item" href="${href}" target="_top" rel="noopener">
+            <span class="xv-num">${x.n}</span>
+            <span class="xv-text">${x.t}</span>
+            <span class="xv-sub">→ read</span>
+          </a>
+        `;
+      }).join("");
+    }
+
+    // Inject 2 copies so animation can loop seamlessly
+    const track = document.getElementById("track");
+    track.innerHTML = buildHTML(items) + buildHTML(items);
+
+    // Optional: if ANNUAL_URL not set, go to top of site instead of breaking
+    if(!ANNUAL_URL || ANNUAL_URL.includes("https://xveritum.com/annual-round-up-2025")){
+      document.querySelectorAll(".xv-item").forEach(a => a.href = "#");
+    }
+  </script>
 </body>
 </html>
